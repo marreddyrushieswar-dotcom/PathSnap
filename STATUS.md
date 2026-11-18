@@ -11,12 +11,11 @@ Completed and executed:
 - FastAPI backend, evaluator-facing UI, and two-laptop startup instructions.
 - Unit tests and direct API-handler validation on all ten student-test trips.
 - Folium development map, measured plots and a consolidated technical report.
+- Live browser-to-HTTP prediction after the user started the server; UI screenshot saved.
 
 Not verified or submitted:
 
-- Live HTTP service, event-loop startup, and browser-to-API connection: this
-  execution environment restricts sockets, including asyncio socketpair.
-- Rendered UI/Folium screenshots: browser policy blocks local file navigation.
+- Rendered Folium screenshot: browser policy blocks local file navigation.
 - Actual two-laptop network deployment and receiving-laptop log screenshots.
 - Final evaluation on the ten reserved trips, which were not supplied.
 - Publication to the team's public GitHub repository and final report submission.

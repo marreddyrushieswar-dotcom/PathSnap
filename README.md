@@ -133,7 +133,7 @@ The required public GitHub repository, receiving-laptop demonstration, team
 identity and access to organiser-held evaluator trips remain external submission
 steps. Do not claim those were completed from a single-computer development run.
 The execution session restricts sockets, including asyncio's internal socketpair.
-HTTP transport and event-loop startup could not be verified. `scripts/validate_api.py`
+The user subsequently started the server outside this session, and browser-to-HTTP predictions were verified on this computer. Two-laptop LAN deployment remains unverified. `scripts/validate_api.py`
 executes synchronous API handlers on all ten student trips and records the exact
 verification scope; it is not a substitute for a live two-laptop check.
 Review and understand the source, findings and report before submission. AI

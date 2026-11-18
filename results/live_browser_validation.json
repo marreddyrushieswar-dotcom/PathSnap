@@ -1,0 +1,68 @@
+{
+  "mode": "live Chrome UI over HTTP",
+  "url": "http://127.0.0.1:8000/",
+  "successful_trips": 10,
+  "trips": [
+    {
+      "trip_id": "00000000",
+      "accuracy": "94.1%",
+      "observations": "2,503",
+      "seconds": "10.45 s"
+    },
+    {
+      "trip_id": "00000007",
+      "accuracy": "88.7%",
+      "observations": "1,354",
+      "seconds": "2.85 s"
+    },
+    {
+      "trip_id": "00000009",
+      "accuracy": "87.4%",
+      "observations": "1,049",
+      "seconds": "3.67 s"
+    },
+    {
+      "trip_id": "00000040",
+      "accuracy": "90.8%",
+      "observations": "2,995",
+      "seconds": "13.17 s"
+    },
+    {
+      "trip_id": "00000052",
+      "accuracy": "99.6%",
+      "observations": "262",
+      "seconds": "0.81 s"
+    },
+    {
+      "trip_id": "00000056",
+      "accuracy": "89.6%",
+      "observations": "3,958",
+      "seconds": "26.65 s"
+    },
+    {
+      "trip_id": "00000065",
+      "accuracy": "83.3%",
+      "observations": "768",
+      "seconds": "2.82 s"
+    },
+    {
+      "trip_id": "00000076",
+      "accuracy": "90.1%",
+      "observations": "1,486",
+      "seconds": "18.18 s"
+    },
+    {
+      "trip_id": "00000077",
+      "accuracy": "67.8%",
+      "observations": "3,911",
+      "seconds": "10.47 s"
+    },
+    {
+      "trip_id": "00000091",
+      "accuracy": "84.6%",
+      "observations": "874",
+      "seconds": "2.88 s"
+    }
+  ],
+  "two_laptop_validated": false
+}
