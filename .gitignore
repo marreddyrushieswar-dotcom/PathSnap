@@ -4,6 +4,7 @@ __pycache__/
 artifacts/prepared/
 tmp/
 *.log
+reports/verification/
 Student folder/
 evaluator_test/
 .env
