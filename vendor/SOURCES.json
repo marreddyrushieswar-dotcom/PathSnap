@@ -1,0 +1,206 @@
+[
+  {
+    "status": "fulfilled",
+    "value": {
+      "repo": "python-visualization/folium",
+      "path": "folium/__init__.py",
+      "sha": "249fafa39707f2bd2a71d826e4704a28d03b10d1",
+      "url": "https://github.com/python-visualization/folium/blob/main/folium/__init__.py"
+    }
+  },
+  {
+    "status": "fulfilled",
+    "value": {
+      "repo": "python-visualization/folium",
+      "path": "folium/features.py",
+      "sha": "136f5e652baa156134235cb52c0936f9842a0b8c",
+      "url": "https://github.com/python-visualization/folium/blob/main/folium/features.py"
+    }
+  },
+  {
+    "status": "fulfilled",
+    "value": {
+      "repo": "python-visualization/folium",
+      "path": "folium/folium.py",
+      "sha": "87067b368014e88f1548fc7555d5bb5e5d1289e0",
+      "url": "https://github.com/python-visualization/folium/blob/main/folium/folium.py"
+    }
+  },
+  {
+    "status": "fulfilled",
+    "value": {
+      "repo": "python-visualization/folium",
+      "path": "folium/map.py",
+      "sha": "e837b257748e01bc54df4c450265076eabab0c3c",
+      "url": "https://github.com/python-visualization/folium/blob/main/folium/map.py"
+    }
+  },
+  {
+    "status": "fulfilled",
+    "value": {
+      "repo": "python-visualization/folium",
+      "path": "folium/raster_layers.py",
+      "sha": "4b660f1ac8ba3ee710ca35a49104d3bc148628bc",
+      "url": "https://github.com/python-visualization/folium/blob/main/folium/raster_layers.py"
+    }
+  },
+  {
+    "status": "fulfilled",
+    "value": {
+      "repo": "python-visualization/folium",
+      "path": "folium/vector_layers.py",
+      "sha": "cf45a14a62770caa9607736150a574e2324b88a3",
+      "url": "https://github.com/python-visualization/folium/blob/main/folium/vector_layers.py"
+    }
+  },
+  {
+    "status": "fulfilled",
+    "value": {
+      "repo": "python-visualization/folium",
+      "path": "folium/elements.py",
+      "sha": "9faa2623d7881a8d79dbf64b7caa170ca4a60813",
+      "url": "https://github.com/python-visualization/folium/blob/main/folium/elements.py"
+    }
+  },
+  {
+    "status": "fulfilled",
+    "value": {
+      "repo": "python-visualization/folium",
+      "path": "folium/utilities.py",
+      "sha": "123054206cc8f51f2a59c2ab8cd3ed70a2e023c6",
+      "url": "https://github.com/python-visualization/folium/blob/main/folium/utilities.py"
+    }
+  },
+  {
+    "status": "fulfilled",
+    "value": {
+      "repo": "python-visualization/folium",
+      "path": "folium/template.py",
+      "sha": "b76c9fc1b255b90c1351f7c50ddf226ddc573751",
+      "url": "https://github.com/python-visualization/folium/blob/main/folium/template.py"
+    }
+  },
+  {
+    "status": "fulfilled",
+    "value": {
+      "repo": "python-visualization/folium",
+      "path": "LICENSE.txt",
+      "sha": "b08ad7fc29e3d0fd422f2d9a1ee1a31b018cb4b7",
+      "url": "https://github.com/python-visualization/folium/blob/main/LICENSE.txt"
+    }
+  },
+  {
+    "status": "fulfilled",
+    "value": {
+      "repo": "python-visualization/branca",
+      "path": "branca/__init__.py",
+      "sha": "75c7adcc5f0394e8baa850c2e5e5086c58a4f375",
+      "url": "https://github.com/python-visualization/branca/blob/main/branca/__init__.py"
+    }
+  },
+  {
+    "status": "fulfilled",
+    "value": {
+      "repo": "python-visualization/branca",
+      "path": "branca/element.py",
+      "sha": "853ca163ea109147f3a10818591cfff9f6afab11",
+      "url": "https://github.com/python-visualization/branca/blob/main/branca/element.py"
+    }
+  },
+  {
+    "status": "fulfilled",
+    "value": {
+      "repo": "python-visualization/branca",
+      "path": "branca/colormap.py",
+      "sha": "2e76ba548886c89aecfef613df6c2ae43ed722ce",
+      "url": "https://github.com/python-visualization/branca/blob/main/branca/colormap.py"
+    }
+  },
+  {
+    "status": "fulfilled",
+    "value": {
+      "repo": "python-visualization/branca",
+      "path": "branca/utilities.py",
+      "sha": "14a1d4664c0dd9851bbcdd2c34f5797e17a8adf3",
+      "url": "https://github.com/python-visualization/branca/blob/main/branca/utilities.py"
+    }
+  },
+  {
+    "status": "fulfilled",
+    "value": {
+      "repo": "python-visualization/branca",
+      "path": "LICENSE.txt",
+      "sha": "ba66702cdc4795d0481fe860ef2ac694ce52cd06",
+      "url": "https://github.com/python-visualization/branca/blob/main/LICENSE.txt"
+    }
+  },
+  {
+    "status": "fulfilled",
+    "value": {
+      "repo": "geopandas/xyzservices",
+      "path": "xyzservices/__init__.py",
+      "sha": "7b42079e91ccb0a70f9b995a8dcfbadbf25f2d16",
+      "url": "https://github.com/geopandas/xyzservices/blob/main/xyzservices/__init__.py"
+    }
+  },
+  {
+    "status": "fulfilled",
+    "value": {
+      "repo": "geopandas/xyzservices",
+      "path": "xyzservices/lib.py",
+      "sha": "34e208b11619605e18f26157dee341260151d756",
+      "url": "https://github.com/geopandas/xyzservices/blob/main/xyzservices/lib.py"
+    }
+  },
+  {
+    "status": "fulfilled",
+    "value": {
+      "repo": "geopandas/xyzservices",
+      "path": "xyzservices/providers.py",
+      "sha": "8cb3d8cffcbdd17e4ce494139c6703dab1e7ed1a",
+      "url": "https://github.com/geopandas/xyzservices/blob/main/xyzservices/providers.py"
+    }
+  },
+  {
+    "status": "fulfilled",
+    "value": {
+      "repo": "geopandas/xyzservices",
+      "path": "xyzservices/data/providers.json",
+      "sha": "7468e47f8245087dc603631fd91e6c9aba4ce1b9",
+      "url": "https://github.com/geopandas/xyzservices/blob/main/xyzservices/data/providers.json"
+    }
+  },
+  {
+    "status": "fulfilled",
+    "value": {
+      "repo": "geopandas/xyzservices",
+      "path": "LICENSE",
+      "sha": "da5009393ffd5d7e2f32e8ad876f073b786a421b",
+      "url": "https://github.com/geopandas/xyzservices/blob/main/LICENSE"
+    }
+  },
+  {
+    "repo": "python-visualization/folium",
+    "path": "folium/font_awesome.py",
+    "sha": "c04e44637ecb41e44dbf894f17d2ddae63529605",
+    "url": "https://github.com/python-visualization/folium/blob/main/folium/font_awesome.py"
+  },
+  {
+    "repo": "python-visualization/branca",
+    "path": "branca/_cnames.json",
+    "sha": "3cf64803c96814befabe5dbdf796e2feca94aa83",
+    "url": "https://github.com/python-visualization/branca/blob/main/branca/_cnames.json"
+  },
+  {
+    "repo": "python-visualization/branca",
+    "path": "branca/_schemes.json",
+    "sha": "449f6cfaa5c9ba5bd25e3445ff00bba0ab2b67f3",
+    "url": "https://github.com/python-visualization/branca/blob/main/branca/_schemes.json"
+  },
+  {
+    "repo": "python-visualization/branca",
+    "path": "branca/templates/color_scale.js",
+    "sha": "c49fd24d8f3fec448afe37ee19f8cc9419d8c086",
+    "url": "https://github.com/python-visualization/branca/blob/main/branca/templates/color_scale.js"
+  }
+]

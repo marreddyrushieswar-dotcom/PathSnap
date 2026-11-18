@@ -1,0 +1,109 @@
+{
+  "validation_mode": "direct synchronous FastAPI handler calls",
+  "transport_layer_validated": false,
+  "event_loop_validated": false,
+  "successful_trips": 10,
+  "health": {
+    "status": "ready",
+    "model": "HistGradientBoosting",
+    "mode": "student_demo",
+    "trip_count": 10
+  },
+  "trips": [
+    {
+      "trip_id": "00000000",
+      "observations": 2503,
+      "accuracy": 0.9408709548541749,
+      "inference_seconds": 1.193744800053537,
+      "components": 4,
+      "mode": "student_demo",
+      "response_bytes": 777553
+    },
+    {
+      "trip_id": "00000007",
+      "observations": 1354,
+      "accuracy": 0.8870014771048744,
+      "inference_seconds": 0.39851750002708286,
+      "components": 1,
+      "mode": "student_demo",
+      "response_bytes": 207909
+    },
+    {
+      "trip_id": "00000009",
+      "observations": 1049,
+      "accuracy": 0.8741658722592945,
+      "inference_seconds": 0.7124641999835148,
+      "components": 1,
+      "mode": "student_demo",
+      "response_bytes": 457559
+    },
+    {
+      "trip_id": "00000040",
+      "observations": 2995,
+      "accuracy": 0.9081803005008348,
+      "inference_seconds": 2.9095783999655396,
+      "components": 1,
+      "mode": "student_demo",
+      "response_bytes": 818377
+    },
+    {
+      "trip_id": "00000052",
+      "observations": 262,
+      "accuracy": 0.9961832061068703,
+      "inference_seconds": 0.11664380005095154,
+      "components": 1,
+      "mode": "student_demo",
+      "response_bytes": 85968
+    },
+    {
+      "trip_id": "00000056",
+      "observations": 3958,
+      "accuracy": 0.8959070237493684,
+      "inference_seconds": 6.78981010010466,
+      "components": 2,
+      "mode": "student_demo",
+      "response_bytes": 946323
+    },
+    {
+      "trip_id": "00000065",
+      "observations": 768,
+      "accuracy": 0.8333333333333334,
+      "inference_seconds": 0.6357864000601694,
+      "components": 2,
+      "mode": "student_demo",
+      "response_bytes": 449650
+    },
+    {
+      "trip_id": "00000076",
+      "observations": 1486,
+      "accuracy": 0.9010767160161507,
+      "inference_seconds": 4.613691999926232,
+      "components": 2,
+      "mode": "student_demo",
+      "response_bytes": 716434
+    },
+    {
+      "trip_id": "00000077",
+      "observations": 3911,
+      "accuracy": 0.6775760675019177,
+      "inference_seconds": 1.9305210000602528,
+      "components": 1,
+      "mode": "student_demo",
+      "response_bytes": 677119
+    },
+    {
+      "trip_id": "00000091",
+      "observations": 874,
+      "accuracy": 0.8455377574370709,
+      "inference_seconds": 0.605393800069578,
+      "components": 1,
+      "mode": "student_demo",
+      "response_bytes": 372100
+    }
+  ],
+  "unknown_trip_rejected": true,
+  "path_traversal_rejected": true,
+  "reference_labels_excluded": true,
+  "openapi_schema_generated": true,
+  "limitation": "Socket access, including asyncio socketpair, is restricted; HTTP and LAN deployment remain unverified."
+}

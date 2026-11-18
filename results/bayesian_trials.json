@@ -1,0 +1,192 @@
+[
+  {
+    "trial": 0,
+    "method": "random_initialization",
+    "params": {
+      "learning_rate": 0.03235878842502571,
+      "max_leaf_nodes": 28
+    },
+    "cv_macro_f1": 0.7720411759716163,
+    "std": 0.02775030184250577,
+    "fold_scores": [
+      0.7778529980900347,
+      0.8027475531605042,
+      0.73552297666431
+    ],
+    "unit_coordinates": [
+      0.3642801803057075,
+      0.5046828473151628
+    ]
+  },
+  {
+    "trial": 1,
+    "method": "random_initialization",
+    "params": {
+      "learning_rate": 0.011854110737184625,
+      "max_leaf_nodes": 43
+    },
+    "cv_macro_f1": 0.7697874860498631,
+    "std": 0.028405675237196375,
+    "fold_scores": [
+      0.7764690415987573,
+      0.8007518272827434,
+      0.7321415892680888
+    ],
+    "unit_coordinates": [
+      0.05276355711247227,
+      0.8969754766849772
+    ]
+  },
+  {
+    "trial": 2,
+    "method": "random_initialization",
+    "params": {
+      "learning_rate": 0.19907800126048264,
+      "max_leaf_nodes": 18
+    },
+    "cv_macro_f1": 0.7720673635258528,
+    "std": 0.029947378933885053,
+    "fold_scores": [
+      0.777755195584601,
+      0.8055690756017704,
+      0.7328778193911872
+    ],
+    "unit_coordinates": [
+      0.9278737655608306,
+      0.25087793047779916
+    ]
+  },
+  {
+    "trial": 3,
+    "method": "GP_expected_improvement",
+    "params": {
+      "learning_rate": 0.21859965675618329,
+      "max_leaf_nodes": 20
+    },
+    "cv_macro_f1": 0.7760647878763449,
+    "std": 0.028160699885012953,
+    "fold_scores": [
+      0.7818067572936145,
+      0.8073231141397911,
+      0.7390644921956291
+    ],
+    "unit_coordinates": [
+      0.9568924826340961,
+      0.32001827289903073
+    ]
+  },
+  {
+    "trial": 4,
+    "method": "GP_expected_improvement",
+    "params": {
+      "learning_rate": 0.04463019093003046,
+      "max_leaf_nodes": 13
+    },
+    "cv_macro_f1": 0.7707057446292112,
+    "std": 0.027374679520477476,
+    "fold_scores": [
+      0.7759459057616082,
+      0.8013041100193357,
+      0.7348672181066894
+    ],
+    "unit_coordinates": [
+      0.46402053198319715,
+      0.14675908865960263
+    ]
+  },
+  {
+    "trial": 5,
+    "method": "GP_expected_improvement",
+    "params": {
+      "learning_rate": 0.0811419501213468,
+      "max_leaf_nodes": 13
+    },
+    "cv_macro_f1": 0.7743460330913853,
+    "std": 0.02822132326655998,
+    "fold_scores": [
+      0.7791381402476735,
+      0.8062638456918798,
+      0.7376361133346029
+    ],
+    "unit_coordinates": [
+      0.6494610293502152,
+      0.13098038698580394
+    ]
+  },
+  {
+    "trial": 6,
+    "method": "GP_expected_improvement",
+    "params": {
+      "learning_rate": 0.099494758207481,
+      "max_leaf_nodes": 18
+    },
+    "cv_macro_f1": 0.774740931271316,
+    "std": 0.027718850030107614,
+    "fold_scores": [
+      0.7804432368118107,
+      0.8054771980823572,
+      0.73830235891978
+    ],
+    "unit_coordinates": [
+      0.7127144292366638,
+      0.2660856726648527
+    ]
+  },
+  {
+    "trial": 7,
+    "method": "GP_expected_improvement",
+    "params": {
+      "learning_rate": 0.2500425874951894,
+      "max_leaf_nodes": 23
+    },
+    "cv_macro_f1": 0.7734462768726599,
+    "std": 0.028028893888039627,
+    "fold_scores": [
+      0.7785504295031219,
+      0.8049366601971817,
+      0.7368517409176764
+    ],
+    "unit_coordinates": [
+      0.9985814174485483,
+      0.3852036944977113
+    ]
+  },
+  {
+    "trial": 8,
+    "method": "GP_expected_improvement",
+    "params": {
+      "learning_rate": 0.18615476274444248,
+      "max_leaf_nodes": 38
+    },
+    "cv_macro_f1": 0.7731377100322817,
+    "std": 0.02692567860705003,
+    "fold_scores": [
+      0.7781940867160044,
+      0.8032945801085947,
+      0.7379244632722464
+    ],
+    "unit_coordinates": [
+      0.9070529657586939,
+      0.7621754716345162
+    ]
+  },
+  {
+    "trial": 9,
+    "method": "GP_expected_improvement",
+    "params": {
+      "learning_rate": 0.04006435139082543,
+      "max_leaf_nodes": 22
+    },
+    "cv_macro_f1": 0.771994799041612,
+    "std": 0.027476893347290407,
+    "fold_scores": [
+      0.7769661241483691,
+      0.8028847855012453,
+      0.7361334874752218
+    ],
+    "unit_coordinates": [
+      0.43054151161463716,
+      0.3503164554528212
+    ]
+  }
+]

@@ -1,0 +1,9 @@
+.venv*/
+__pycache__/
+*.pyc
+artifacts/prepared/
+tmp/
+*.log
+Student folder/
+evaluator_test/
+.env
