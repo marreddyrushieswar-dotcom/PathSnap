@@ -8,3 +8,8 @@ reports/verification/
 Student folder/
 evaluator_test/
 .env
+runs/*/artifacts/prepared/
+runs/context_v2/
+# Deliverable 2 and the local development checklist are kept separately.
+reports/PathSnap_Technical_Report.pdf
+STATUS.md

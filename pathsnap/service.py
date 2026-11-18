@@ -3,7 +3,7 @@ from pathlib import Path
 import json, os, time
 import joblib
 import numpy as np
-from .data import load_trip, candidates, load_reference
+from .data import load_trip, candidates, load_reference, feature_names
 from .decoder import decode, route_geometry
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -11,8 +11,12 @@ ROOT=Path(__file__).resolve().parents[1]
 
 @lru_cache(maxsize=1)
 def assets():
-    config=json.loads((ROOT/'artifacts'/'config.json').read_text())
-    model=joblib.load(ROOT/'artifacts'/'final_model.joblib')
+    artifact_root=Path(os.environ.get('PATHSNAP_ARTIFACT_ROOT',str(ROOT/'artifacts')))
+    config=json.loads((artifact_root/'config.json').read_text())
+    model=joblib.load(artifact_root/'final_model.joblib')
+    expected=feature_names(config.get('feature_version',1))
+    if config['features'] != expected or model.n_features_in_ != len(expected):
+        raise ValueError('Model and configured feature schema do not match')
     return config,model
 
 
@@ -38,7 +42,7 @@ def predict(folder):
     """This prediction function cannot access reference labels."""
     from .experiment import scores
     config,model=assets()
-    trip=load_trip(folder); c=candidates(trip,config['candidates'])
+    trip=load_trip(folder); c=candidates(trip,config['candidates'],config.get('feature_version',1))
     probabilities=scores(model,c['features'])
     ids,chosen,resets=decode(trip,c,probabilities,**config['decoder'])
     geometry,arc_ids=route_geometry(trip,c,chosen,resets)

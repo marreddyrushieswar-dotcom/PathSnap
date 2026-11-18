@@ -1,0 +1,212 @@
+{
+  "selection_partition": "16 held-out training trips; not student_test",
+  "primary_metric": "observation_weighted_accuracy",
+  "seed": 181126,
+  "fit_trips": [
+    "00000001",
+    "00000002",
+    "00000003",
+    "00000004",
+    "00000005",
+    "00000006",
+    "00000008",
+    "00000010",
+    "00000011",
+    "00000012",
+    "00000013",
+    "00000014",
+    "00000016",
+    "00000018",
+    "00000019",
+    "00000020",
+    "00000021",
+    "00000022",
+    "00000024",
+    "00000025",
+    "00000026",
+    "00000028",
+    "00000029",
+    "00000031",
+    "00000032",
+    "00000033",
+    "00000035",
+    "00000036",
+    "00000038",
+    "00000039",
+    "00000042",
+    "00000043",
+    "00000044",
+    "00000047",
+    "00000048",
+    "00000051",
+    "00000054",
+    "00000057",
+    "00000058",
+    "00000060",
+    "00000061",
+    "00000062",
+    "00000063",
+    "00000066",
+    "00000068",
+    "00000069",
+    "00000070",
+    "00000071",
+    "00000072",
+    "00000074",
+    "00000075",
+    "00000078",
+    "00000081",
+    "00000082",
+    "00000084",
+    "00000085",
+    "00000086",
+    "00000089",
+    "00000090",
+    "00000093",
+    "00000096",
+    "00000097",
+    "00000098",
+    "00000099"
+  ],
+  "validation_trips": [
+    "00000027",
+    "00000034",
+    "00000037",
+    "00000041",
+    "00000045",
+    "00000046",
+    "00000050",
+    "00000053",
+    "00000055",
+    "00000064",
+    "00000079",
+    "00000080",
+    "00000083",
+    "00000088",
+    "00000092",
+    "00000095"
+  ],
+  "classifier_accuracy": 0.949723325525342,
+  "trials": [
+    {
+      "parameters": {
+        "beta": 15.0,
+        "gap_seconds": 30,
+        "transition_weight": 0.15,
+        "normalize_transitions": true
+      },
+      "correct": 27018,
+      "observations": 29457,
+      "accuracy": 0.9172013443324167,
+      "macro_f1": 0.866206632970545
+    },
+    {
+      "parameters": {
+        "beta": 15.0,
+        "gap_seconds": 30,
+        "transition_weight": 0.5,
+        "normalize_transitions": true
+      },
+      "correct": 26536,
+      "observations": 29457,
+      "accuracy": 0.9008385103710493,
+      "macro_f1": 0.85590298385229
+    },
+    {
+      "parameters": {
+        "beta": 15.0,
+        "gap_seconds": 30,
+        "transition_weight": 1.0,
+        "normalize_transitions": true
+      },
+      "correct": 26047,
+      "observations": 29457,
+      "accuracy": 0.8842380418915707,
+      "macro_f1": 0.8335025426051716
+    },
+    {
+      "parameters": {
+        "beta": 50.0,
+        "gap_seconds": 30,
+        "transition_weight": 0.15,
+        "normalize_transitions": true
+      },
+      "correct": 27120,
+      "observations": 29457,
+      "accuracy": 0.9206640187391791,
+      "macro_f1": 0.8631206369011276
+    },
+    {
+      "parameters": {
+        "beta": 50.0,
+        "gap_seconds": 30,
+        "transition_weight": 0.5,
+        "normalize_transitions": true
+      },
+      "correct": 27012,
+      "observations": 29457,
+      "accuracy": 0.9169976576026072,
+      "macro_f1": 0.8669009610122635
+    },
+    {
+      "parameters": {
+        "beta": 50.0,
+        "gap_seconds": 30,
+        "transition_weight": 1.0,
+        "normalize_transitions": true
+      },
+      "correct": 26761,
+      "observations": 29457,
+      "accuracy": 0.9084767627389075,
+      "macro_f1": 0.8582578953513262
+    },
+    {
+      "parameters": {
+        "beta": 150.0,
+        "gap_seconds": 30,
+        "transition_weight": 0.15,
+        "normalize_transitions": true
+      },
+      "correct": 27096,
+      "observations": 29457,
+      "accuracy": 0.9198492718199409,
+      "macro_f1": 0.859259759277663
+    },
+    {
+      "parameters": {
+        "beta": 150.0,
+        "gap_seconds": 30,
+        "transition_weight": 0.5,
+        "normalize_transitions": true
+      },
+      "correct": 27125,
+      "observations": 29457,
+      "accuracy": 0.9208337576806871,
+      "macro_f1": 0.864765648433351
+    },
+    {
+      "parameters": {
+        "beta": 150.0,
+        "gap_seconds": 30,
+        "transition_weight": 1.0,
+        "normalize_transitions": true
+      },
+      "correct": 27076,
+      "observations": 29457,
+      "accuracy": 0.9191703160539091,
+      "macro_f1": 0.866393524256186
+    }
+  ],
+  "chosen": {
+    "parameters": {
+      "beta": 150.0,
+      "gap_seconds": 30,
+      "transition_weight": 0.5,
+      "normalize_transitions": true
+    },
+    "correct": 27125,
+    "observations": 29457,
+    "accuracy": 0.9208337576806871,
+    "macro_f1": 0.864765648433351
+  }
+}

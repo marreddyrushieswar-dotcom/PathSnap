@@ -25,12 +25,15 @@ def transition_distances(trip, cand, t):
     return cache[t]
 
 
-def decode(trip, cand, probabilities, beta=35.0, gap_seconds=30):
+def decode(trip, cand, probabilities, beta=35.0, gap_seconds=30,
+           transition_weight=1.0, normalize_transitions=True):
     """Log-space Viterbi with normalized directed transition probabilities.
 
     A gap or a step with no reachable candidate pair starts a new route component.
     No impossible connector is fabricated. Reset indices are returned for the UI.
     """
+    if beta <= 0 or transition_weight <= 0:
+        raise ValueError('Decoder scales must be positive')
     n, k = probabilities.shape
     emission = np.log(np.clip(probabilities, 1e-12, 1))
     score = emission[0].copy()
@@ -39,10 +42,12 @@ def decode(trip, cand, probabilities, beta=35.0, gap_seconds=30):
     for t in range(1, n):
         distance, gps_step = transition_distances(trip, cand, t)
         transition = -np.abs(distance-gps_step) / beta
-        finite = np.isfinite(transition)
-        row_max = np.max(np.where(finite, transition, -1e30), axis=1)
-        denominator = np.sum(np.where(finite, np.exp(np.clip(transition-row_max[:, None], -700, 0)), 0), axis=1)
-        transition = np.where(finite, transition-row_max[:, None]-np.log(np.maximum(denominator[:, None], 1e-300)), -np.inf)
+        if normalize_transitions:
+            finite = np.isfinite(transition)
+            row_max = np.max(np.where(finite, transition, -1e30), axis=1)
+            denominator = np.sum(np.where(finite, np.exp(np.clip(transition-row_max[:, None], -700, 0)), 0), axis=1)
+            transition = np.where(finite, transition-row_max[:, None]-np.log(np.maximum(denominator[:, None], 1e-300)), -np.inf)
+        transition *= transition_weight
         combined = score[:, None] + transition
         if trip.track[t, 2]-trip.track[t-1, 2] > gap_seconds or not np.isfinite(combined).any():
             # A reset permits independent decoding, and is visibly marked as disconnected.

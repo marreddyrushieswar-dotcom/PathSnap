@@ -13,97 +13,99 @@
     {
       "trip_id": "00000000",
       "observations": 2503,
-      "accuracy": 0.9408709548541749,
-      "inference_seconds": 1.193744800053537,
+      "accuracy": 0.9564522572912505,
+      "inference_seconds": 1.0664019000250846,
       "components": 4,
       "mode": "student_demo",
-      "response_bytes": 777553
+      "response_bytes": 794536
     },
     {
       "trip_id": "00000007",
       "observations": 1354,
-      "accuracy": 0.8870014771048744,
-      "inference_seconds": 0.39851750002708286,
+      "accuracy": 0.947562776957164,
+      "inference_seconds": 0.5867436999687925,
       "components": 1,
       "mode": "student_demo",
-      "response_bytes": 207909
+      "response_bytes": 215100
     },
     {
       "trip_id": "00000009",
       "observations": 1049,
-      "accuracy": 0.8741658722592945,
-      "inference_seconds": 0.7124641999835148,
+      "accuracy": 0.894184938036225,
+      "inference_seconds": 1.0034298000391573,
       "components": 1,
       "mode": "student_demo",
-      "response_bytes": 457559
+      "response_bytes": 464647
     },
     {
       "trip_id": "00000040",
       "observations": 2995,
-      "accuracy": 0.9081803005008348,
-      "inference_seconds": 2.9095783999655396,
+      "accuracy": 0.9415692821368948,
+      "inference_seconds": 4.267127400031313,
       "components": 1,
       "mode": "student_demo",
-      "response_bytes": 818377
+      "response_bytes": 836366
     },
     {
       "trip_id": "00000052",
       "observations": 262,
-      "accuracy": 0.9961832061068703,
-      "inference_seconds": 0.11664380005095154,
+      "accuracy": 1.0,
+      "inference_seconds": 0.1136450000340119,
       "components": 1,
       "mode": "student_demo",
-      "response_bytes": 85968
+      "response_bytes": 87736
     },
     {
       "trip_id": "00000056",
       "observations": 3958,
-      "accuracy": 0.8959070237493684,
-      "inference_seconds": 6.78981010010466,
+      "accuracy": 0.9229408792319354,
+      "inference_seconds": 4.824303500005044,
       "components": 2,
       "mode": "student_demo",
-      "response_bytes": 946323
+      "response_bytes": 980363
     },
     {
       "trip_id": "00000065",
       "observations": 768,
-      "accuracy": 0.8333333333333334,
-      "inference_seconds": 0.6357864000601694,
+      "accuracy": 0.8736979166666666,
+      "inference_seconds": 0.3642354999901727,
       "components": 2,
       "mode": "student_demo",
-      "response_bytes": 449650
+      "response_bytes": 456735
     },
     {
       "trip_id": "00000076",
       "observations": 1486,
-      "accuracy": 0.9010767160161507,
-      "inference_seconds": 4.613691999926232,
+      "accuracy": 0.9454912516823688,
+      "inference_seconds": 3.4622109999181703,
       "components": 2,
       "mode": "student_demo",
-      "response_bytes": 716434
+      "response_bytes": 728814
     },
     {
       "trip_id": "00000077",
       "observations": 3911,
-      "accuracy": 0.6775760675019177,
-      "inference_seconds": 1.9305210000602528,
+      "accuracy": 0.8790590641779596,
+      "inference_seconds": 1.5492957000387833,
       "components": 1,
       "mode": "student_demo",
-      "response_bytes": 677119
+      "response_bytes": 708664
     },
     {
       "trip_id": "00000091",
       "observations": 874,
-      "accuracy": 0.8455377574370709,
-      "inference_seconds": 0.605393800069578,
+      "accuracy": 0.914187643020595,
+      "inference_seconds": 0.39936919999308884,
       "components": 1,
       "mode": "student_demo",
-      "response_bytes": 372100
+      "response_bytes": 386667
     }
   ],
   "unknown_trip_rejected": true,
   "path_traversal_rejected": true,
   "reference_labels_excluded": true,
   "openapi_schema_generated": true,
+  "saved_experiment_predictions_match": true,
+  "model_sha256": "fc5be754a1d8dc3c9e8545bfc742cb91e87b29bc4f94ba72ce0e8bc3f0f2a85e",
   "limitation": "Socket access, including asyncio socketpair, is restricted; HTTP and LAN deployment remain unverified."
 }

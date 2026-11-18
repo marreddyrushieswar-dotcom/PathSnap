@@ -19,7 +19,10 @@ def rows(file):
 
 def font(size,bold=False):
     path=Path('C:/Windows/Fonts')/('arialbd.ttf' if bold else 'arial.ttf')
-    return ImageFont.truetype(str(path),size)
+    for candidate in (str(path),'DejaVuSans-Bold.ttf' if bold else 'DejaVuSans.ttf'):
+        try:return ImageFont.truetype(candidate,size)
+        except OSError:pass
+    return ImageFont.load_default()
 
 
 def chart(title,labels,series,names,filename,maximum=None):
@@ -73,6 +76,8 @@ def trajectory_image(prediction,trip_nodes,arcs,route):
 def main():
     comparison=rows('model_comparison.csv');decoder=rows('decoder_comparison.csv');inventory=rows('dataset_inventory.csv')
     config=json.loads((ROOT/'artifacts'/'config.json').read_text());details=json.loads((ROOT/'results'/'model_details.json').read_text())
+    if config.get('feature_version',1) != 1:
+        raise ValueError('This legacy report template describes the baseline only. Generate current Deliverable 1 figures with scripts/plot_experiments.py.')
     trials=json.loads((ROOT/'results'/'bayesian_trials.json').read_text())
     labels=[r['model'] for r in comparison]
     chart('Trip-grouped cross-validation',labels,[[float(r['cv_macro_f1']) for r in comparison]],['Observation-level macro F1'],'cv_comparison.png',1)

@@ -12,49 +12,81 @@
     "previous_distance_m",
     "next_distance_m",
     "start_degree",
-    "end_degree"
+    "end_degree",
+    "relative_distance_m",
+    "distance_ratio",
+    "start_distance_m",
+    "end_distance_m",
+    "heading_cos_3s",
+    "displacement_m_3s",
+    "speed_mps_3s",
+    "past_distance_m_3s",
+    "future_distance_m_3s",
+    "mean_position_distance_m_3s",
+    "progress_m_3s",
+    "window_s_3s",
+    "heading_cos_8s",
+    "displacement_m_8s",
+    "speed_mps_8s",
+    "past_distance_m_8s",
+    "future_distance_m_8s",
+    "mean_position_distance_m_8s",
+    "progress_m_8s",
+    "window_s_8s",
+    "heading_cos_20s",
+    "displacement_m_20s",
+    "speed_mps_20s",
+    "past_distance_m_20s",
+    "future_distance_m_20s",
+    "mean_position_distance_m_20s",
+    "progress_m_20s",
+    "window_s_20s"
   ],
+  "feature_version": 2,
   "candidates": 12,
   "selected_model": "HistGradientBoosting",
   "use_tuned": true,
   "bayesian_parameters": {
-    "learning_rate": 0.21859965675618329,
-    "max_leaf_nodes": 20
+    "learning_rate": 0.12517493506254468,
+    "max_leaf_nodes": 36
   },
-  "bayesian_cv_macro_f1": 0.7760647878763449,
-  "untuned_cv_macro_f1": 0.7755299819679795,
+  "bayesian_cv_macro_f1": 0.863241150175046,
+  "untuned_cv_macro_f1": 0.8591863339891982,
   "tuned_student_results": {
-    "top1_accuracy": 0.8597599164926931,
-    "macro_f1": 0.7703479844452538,
-    "precision": 0.7948590311685386,
-    "recall": 0.7617897917846579,
-    "log_loss": 0.41549897260226026,
+    "top1_accuracy": 0.9264091858037579,
+    "macro_f1": 0.874324144300043,
+    "precision": 0.887374924735334,
+    "recall": 0.8723154280392862,
+    "log_loss": 0.2583728531272096,
     "candidate_miss_rate": 0.0012004175365344467,
-    "candidate_macro_f1": 0.9237912102066339,
+    "candidate_macro_f1": 0.9601652055593263,
     "confusion_matrix_candidate": [
       [
-        208096,
-        2687
+        209373,
+        1410
       ],
       [
-        2664,
-        16473
+        1387,
+        17750
       ]
     ],
-    "inference_seconds": 0.23173789982683957
+    "inference_seconds": 0.7255970999831334
   },
-  "bayesian_search_seconds": 46.6929664000636,
-  "refit_seconds": 1.7253691999940202,
-  "trials": 10,
+  "bayesian_search_seconds": 469.0593705000356,
+  "refit_seconds": 15.068227000068873,
+  "trials": 12,
   "cv_folds": 3,
-  "maximum_training_observations_per_trip": 350,
-  "training_observations": 28000,
+  "maximum_training_observations_per_trip": 900,
+  "training_observations": 66606,
   "training_trips": 80,
   "label_method": "monotone geometric alignment; derived proxy labels, not native GPS point annotations",
   "decoder": {
-    "beta": 35.0,
-    "gap_seconds": 30
+    "beta": 150.0,
+    "gap_seconds": 30,
+    "transition_weight": 0.5,
+    "normalize_transitions": true
   },
-  "data_root": "C:\\Users\\marre\\Downloads\\Student folder\\Student folder",
-  "evaluator_partition_used": false
+  "data_root": "C:\\Users\\marre\\Downloads\\Student folder\\pathsnap\\..\\Student folder",
+  "evaluator_partition_used": false,
+  "decoder_validation_accuracy": 0.9208337576806871
 }

@@ -9,6 +9,18 @@ FEATURES = ['distance_m', 'distance_rank', 'heading_cos', 'heading_sin_abs',
             'segment_length_m', 'projection_fraction', 'speed_mps', 'dt_s',
             'previous_distance_m', 'next_distance_m', 'start_degree', 'end_degree']
 
+CONTEXT_FEATURES = ['relative_distance_m', 'distance_ratio', 'start_distance_m',
+                    'end_distance_m'] + [f'{name}_{seconds}s'
+    for seconds in (3, 8, 20) for name in
+    ('heading_cos', 'displacement_m', 'speed_mps', 'past_distance_m',
+     'future_distance_m', 'mean_position_distance_m', 'progress_m', 'window_s')]
+
+
+def feature_names(version=1):
+    if version not in (1, 2):
+        raise ValueError('Unknown feature schema')
+    return FEATURES + (CONTEXT_FEATURES if version == 2 else [])
+
 
 @dataclass
 class Trip:
@@ -75,7 +87,7 @@ def project(points, starts, ends):
     return np.linalg.norm(points - snapped, axis=-1), frac
 
 
-def candidates(trip, k=12):
+def candidates(trip, k=12, feature_version=1):
     """Sample network segments every <=30m, shortlist, then exact segment projection.
 
     KD-tree retrieval is approximate for dense networks; candidate miss rate is measured.
@@ -121,6 +133,34 @@ def candidates(trip, k=12):
                         trip.lengths[ids], fractions_out, np.broadcast_to(speed[:, None], ids.shape),
                         np.broadcast_to(dt[:, None], ids.shape), previous_distance, next_distance,
                         degree[trip.arcs[ids, 0]], degree[trip.arcs[ids, 1]]], axis=-1)
+    feature_names(feature_version)
+    if feature_version == 2:
+        extra = [distances-distances[:, :1], distances/(distances[:, :1]+1),
+                 np.linalg.norm(trip.gps[:, None]-starts[ids], axis=-1),
+                 np.linalg.norm(trip.gps[:, None]-ends[ids], axis=-1)]
+        times = trip.track[:, 2]
+        # Context stays within a component and uses GPS/network inputs only.
+        cuts = np.r_[0, np.flatnonzero(np.diff(times) > 30)+1, n]
+        lower, upper = np.empty(n, int), np.empty(n, int)
+        for left, right in zip(cuts[:-1], cuts[1:]):
+            lower[left:right], upper[left:right] = left, right-1
+        prefix = np.vstack([np.zeros(2), np.cumsum(trip.gps, axis=0)])
+        for seconds in (3, 8, 20):
+            past = np.maximum(np.searchsorted(times, times-seconds), lower)
+            future = np.minimum(np.searchsorted(times, times+seconds, side='right')-1, upper)
+            delta = trip.gps[future]-trip.gps[past]
+            length = np.linalg.norm(delta, axis=1)
+            direction = delta/np.maximum(length[:, None], 1e-9)
+            elapsed = np.maximum(times[future]-times[past], 1)
+            mean = (prefix[future+1]-prefix[past])/(future-past+1)[:, None]
+            pd, pf = project(trip.gps[past, None], starts[ids], ends[ids])
+            fd, ff = project(trip.gps[future, None], starts[ids], ends[ids])
+            md, _ = project(mean[:, None], starts[ids], ends[ids])
+            broadcast = lambda value: np.broadcast_to(value[:, None], ids.shape)
+            extra.extend([np.sum(directions*direction[:, None], axis=-1),
+                          broadcast(length), broadcast(np.minimum(length/elapsed, 100)),
+                          pd, fd, md, (ff-pf)*trip.lengths[ids], broadcast(elapsed)])
+        feature = np.concatenate([feature, np.stack(extra, axis=-1)], axis=-1)
     return {'ids': ids, 'distances': distances, 'fractions': fractions_out,
             'features': feature.astype(np.float32)}
 

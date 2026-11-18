@@ -1,6 +1,6 @@
 """Validate synchronous API handlers without network or event-loop socket access."""
 from pathlib import Path
-import json,sys,time
+import json,sys,time,hashlib
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
 from fastapi import HTTPException
 from pydantic import ValidationError
@@ -17,6 +17,10 @@ def main():
         assert len(result['predicted_arc_ids'])==result['observations']==len(result['gps'])
         assert result['predicted_components'];assert 0<=result['accuracy']<=1
         assert not {'reference_route','reference_arc_ids','labels','truth','reference_geometry'} & set(result)
+        expected_path=ROOT/'results'/'predictions'/(trip_id+'.json')
+        expected=json.loads(expected_path.read_text())
+        assert result['predicted_arc_ids']==expected['predicted_arc_ids'], 'API and experiment predictions differ'
+        assert abs(result['accuracy']-expected['accuracy'])<1e-12, 'API and experiment accuracy differ'
         encoded=json.dumps(result,allow_nan=False)
         summary={key:result[key] for key in ['trip_id','observations','accuracy','inference_seconds','components','mode']}
         summary['response_bytes']=len(encoded.encode());evidence.append(summary)
@@ -33,6 +37,8 @@ def main():
             'successful_trips':len(evidence),'health':state,'trips':evidence,
             'unknown_trip_rejected':True,'path_traversal_rejected':True,
             'reference_labels_excluded':True,'openapi_schema_generated':True,
+            'saved_experiment_predictions_match':True,
+            'model_sha256':hashlib.sha256((ROOT/'artifacts'/'final_model.joblib').read_bytes()).hexdigest(),
             'limitation':'Socket access, including asyncio socketpair, is restricted; HTTP and LAN deployment remain unverified.'}
     (ROOT/'results'/'api_validation.json').write_text(json.dumps(result,indent=2))
     print('Validated all handlers and ten student trips.',flush=True)

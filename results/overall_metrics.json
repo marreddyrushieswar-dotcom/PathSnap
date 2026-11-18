@@ -1,0 +1,18 @@
+{
+  "classifier": {
+    "correct": 17750,
+    "observations": 19160,
+    "accuracy": 0.9264091858037579,
+    "macro_f1": 0.874324144300043,
+    "target_above_90_percent": true
+  },
+  "hmm": {
+    "correct": 17663,
+    "observations": 19160,
+    "accuracy": 0.9218684759916492,
+    "macro_f1": 0.8959010222313571,
+    "target_above_90_percent": true
+  },
+  "accuracy_basis": "monotone geometric alignment; derived proxy labels, not native GPS point annotations",
+  "decoder_selection": "training holdout only"
+}

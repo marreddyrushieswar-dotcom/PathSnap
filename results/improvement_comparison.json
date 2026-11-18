@@ -1,0 +1,46 @@
+{
+  "baseline": {
+    "feature_count": 12,
+    "model": "HistGradientBoosting",
+    "training_observations": 28000,
+    "selected_cv_macro_f1": 0.7760647878763449,
+    "observations": 19160,
+    "label_method": "monotone geometric alignment; derived proxy labels, not native GPS point annotations",
+    "classifier": {
+      "accuracy": 0.8597599164926931,
+      "macro_f1": 0.7703479844452538,
+      "mean_route_continuity": 0.9833891955664047
+    },
+    "hmm": {
+      "accuracy": 0.8542797494780794,
+      "macro_f1": 0.8169757689657832,
+      "mean_route_continuity": 0.999854824252804
+    }
+  },
+  "candidate": {
+    "feature_count": 40,
+    "model": "HistGradientBoosting",
+    "training_observations": 66606,
+    "selected_cv_macro_f1": 0.863241150175046,
+    "observations": 19160,
+    "label_method": "monotone geometric alignment; derived proxy labels, not native GPS point annotations",
+    "classifier": {
+      "accuracy": 0.9264091858037579,
+      "macro_f1": 0.874324144300043,
+      "mean_route_continuity": 0.9852787602972676
+    },
+    "hmm": {
+      "accuracy": 0.9218684759916492,
+      "macro_f1": 0.8959010222313571,
+      "mean_route_continuity": 0.999854824252804
+    }
+  },
+  "accuracy_gain_percentage_points": 6.758872651356985,
+  "target_above_90_percent": true,
+  "notes": [
+    "All ten student-test trips; observation-weighted accuracy.",
+    "Labels and scoring definition unchanged.",
+    "Feature set, sample count and model configuration changed together; this is not a feature-only ablation.",
+    "Not a result on reserved evaluator trips."
+  ]
+}

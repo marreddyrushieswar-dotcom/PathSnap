@@ -15,7 +15,7 @@ from sklearn.gaussian_process.kernels import Matern, WhiteKernel
 from sklearn.model_selection import GroupKFold
 from sklearn.metrics import f1_score, accuracy_score, precision_score, recall_score, confusion_matrix
 from scipy.special import ndtr
-from .data import load_trip, candidates, load_reference, FEATURES
+from .data import load_trip, candidates, load_reference, feature_names
 from .decoder import decode, continuity, route_geometry
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -53,14 +53,20 @@ def metrics(probability, ids, labels, groups):
             'confusion_matrix_candidate': confusion_matrix(truth.ravel(), binary_pred.ravel(), labels=[0,1]).tolist()}
 
 
-def models():
-    return {
+def models(feature_version=1):
+    choices = {
         'LogisticRegression': make_pipeline(StandardScaler(), LogisticRegression(C=1, max_iter=400, class_weight='balanced', random_state=SEED)),
         'GaussianNB': make_pipeline(StandardScaler(), GaussianNB(var_smoothing=1e-5)),
         'DecisionTree': DecisionTreeClassifier(max_depth=12, min_samples_leaf=12, class_weight='balanced', random_state=SEED),
         'RandomForest': RandomForestClassifier(n_estimators=60, max_depth=15, min_samples_leaf=5, class_weight='balanced', n_jobs=2, random_state=SEED),
         'HistGradientBoosting': HistGradientBoostingClassifier(max_iter=85, max_leaf_nodes=23, learning_rate=0.08, l2_regularization=1, random_state=SEED),
     }
+    if feature_version == 2:
+        choices['LogisticRegression'].set_params(logisticregression__max_iter=700)
+        choices['DecisionTree'].set_params(max_depth=18, min_samples_leaf=15)
+        choices['RandomForest'].set_params(n_estimators=90, max_depth=22, min_samples_leaf=3)
+        choices['HistGradientBoosting'].set_params(max_iter=180, max_leaf_nodes=31, learning_rate=.08)
+    return choices
 
 
 def inventory(folder, trip, residual, route, split):
@@ -77,7 +83,7 @@ def inventory(folder, trip, residual, route, split):
             **{ext+'_bytes':(folder/(trip.trip_id+'.'+ext)).stat().st_size for ext in ['track','nodes','arcs','route']}}
 
 
-def prepare(data, max_observations=350, k=12):
+def prepare(data, max_observations=350, k=12, feature_version=1):
     cache=ROOT/'artifacts'/'prepared'; cache.mkdir(exist_ok=True,parents=True)
     training=[]; testing=[]; rows=[]
     rng=np.random.default_rng(SEED)
@@ -90,12 +96,12 @@ def prepare(data, max_observations=350, k=12):
             for extension in ['.nodes','.arcs','.track','.route']:
                 info=(folder/(folder.name+extension)).stat()
                 signature.update(f'{extension}:{info.st_size}:{info.st_mtime_ns}'.encode())
-            target=cache/(split+'_'+folder.name+f'_k{k}_'+signature.hexdigest()[:12]+'.npz')
+            target=cache/(split+'_'+folder.name+f'_k{k}_v{feature_version}_'+signature.hexdigest()[:12]+'.npz')
             trip=load_trip(folder)
             if target.exists():
                 with np.load(target) as loaded: c={key:loaded[key] for key in ['ids','features','fractions','distances']}; labels=loaded['labels']; route=loaded['route']; residual=loaded['residual']
             else:
-                c=candidates(trip,k); labels,route,residual=load_reference(folder,trip)
+                c=candidates(trip,k,feature_version); labels,route,residual=load_reference(folder,trip)
                 np.savez_compressed(target,**c,labels=labels,route=route,residual=residual)
             rows.append(inventory(folder,trip,residual,route,split))
             if split=='train':
@@ -133,7 +139,7 @@ def evaluate(model,testing):
     return result,all_p
 
 
-def tune_spec(name, unit):
+def tune_spec(name, unit, feature_version=1):
     u,v=map(float,unit)
     if name=='LogisticRegression':
         params={'logisticregression__C':10**(-3+6*u), 'logisticregression__tol':10**(-5+3*v)}
@@ -141,10 +147,10 @@ def tune_spec(name, unit):
     elif name=='DecisionTree': params={'max_depth':int(4+20*u),'min_samples_leaf':int(2+30*v)}
     elif name=='RandomForest': params={'max_depth':int(6+18*u),'min_samples_leaf':int(1+15*v)}
     else: params={'learning_rate':10**(-2+1.4*u),'max_leaf_nodes':int(8+40*v)}
-    return clone(models()[name]).set_params(**params),params
+    return clone(models(feature_version)[name]).set_params(**params),params
 
 
-def bayesian_search(name,arrays,splits,trials=10):
+def bayesian_search(name,arrays,splits,trials=10,feature_version=1):
     rng=np.random.default_rng(SEED); positions=[]; objectives=[]; records=[]
     start=time.perf_counter()
     for trial in range(trials):
@@ -158,26 +164,26 @@ def bayesian_search(name,arrays,splits,trials=10):
             z=improvement/np.maximum(sigma,1e-12)
             expected=improvement*ndtr(z)+sigma*np.exp(-z*z/2)/np.sqrt(2*np.pi)
             point=pool[np.argmax(expected)]
-        estimator,params=tune_spec(name,point)
+        estimator,params=tune_spec(name,point,feature_version)
         mean,std,folds=cross_validate(estimator,arrays,splits)
         positions.append(point.tolist());objectives.append(mean)
         records.append({'trial':trial,'method':'random_initialization' if trial<3 else 'GP_expected_improvement',
                         'params':params,'cv_macro_f1':mean,'std':std,'fold_scores':folds,'unit_coordinates':point.tolist()})
         (ROOT/'results'/'bayesian_trials.json').write_text(json.dumps(records,indent=2))
         print(f'Bayesian trial {trial+1}/{trials}: {mean:.4f} {params}',flush=True)
-    best=int(np.argmax(objectives)); estimator,params=tune_spec(name,positions[best])
+    best=int(np.argmax(objectives)); estimator,params=tune_spec(name,positions[best],feature_version)
     return estimator,params,objectives[best],time.perf_counter()-start
 
 
-def run(data,trials=10,max_observations=350):
-    for directory in ['results','artifacts','reports']: (ROOT/directory).mkdir(exist_ok=True)
-    arrays,testing,inventory_rows=prepare(data,max_observations)
+def run(data,trials=10,max_observations=350,feature_version=1):
+    for directory in ['results','artifacts','reports']: (ROOT/directory).mkdir(exist_ok=True,parents=True)
+    arrays,testing,inventory_rows=prepare(data,max_observations,feature_version=feature_version)
     x,ids,labels,groups=arrays
     splits=list(GroupKFold(n_splits=3).split(x,labels,groups))
     split_record=[{'fold':i,'train_trips':sorted(np.unique(groups[a]).tolist()),'validation_trips':sorted(np.unique(groups[b]).tolist())} for i,(a,b) in enumerate(splits)]
     (ROOT/'results'/'cv_splits.json').write_text(json.dumps(split_record,indent=2))
     rows=[]; detail={}; trained={}; test_scores={}
-    for name,model in models().items():
+    for name,model in models(feature_version).items():
         start=time.perf_counter(); mean,std,folds=cross_validate(model,arrays,splits)
         fitted=fit(clone(model),x,ids,labels); elapsed=time.perf_counter()-start
         result,probabilities=evaluate(fitted,testing)
@@ -187,11 +193,11 @@ def run(data,trials=10,max_observations=350):
              'training_and_cv_seconds':elapsed}
         rows.append(row);detail[name]={'parameters':model.get_params(deep=False).__repr__(),'fold_scores':folds,**result}
         trained[name]=fitted;test_scores[name]=probabilities
-        joblib.dump(fitted,ROOT/'artifacts'/(name+'.joblib'))
+        joblib.dump(fitted,ROOT/'artifacts'/(name+'.joblib'),compress=3)
         write_csv(ROOT/'results'/'model_comparison.csv',rows)
         print(f'{name}: CV {mean:.4f}, student F1 {result["macro_f1"]:.4f}',flush=True)
     selected=max(rows,key=lambda row:row['cv_macro_f1'])['model']
-    tuned,params,cv_score,search_seconds=bayesian_search(selected,arrays,splits,trials)
+    tuned,params,cv_score,search_seconds=bayesian_search(selected,arrays,splits,trials,feature_version)
     start=time.perf_counter(); fit(tuned,x,ids,labels); refit_seconds=time.perf_counter()-start
     tuned_result,tuned_probabilities=evaluate(tuned,testing)
     # Keep untuned model if Bayesian CV evidence does not improve it.
@@ -199,7 +205,7 @@ def run(data,trials=10,max_observations=350):
     use_tuned=cv_score>untuned_cv
     final=tuned if use_tuned else trained[selected]
     final_probabilities=tuned_probabilities if use_tuned else test_scores[selected]
-    joblib.dump(final,ROOT/'artifacts'/'final_model.joblib')
+    joblib.dump(final,ROOT/'artifacts'/'final_model.joblib',compress=3)
     decoder_rows=[]; prediction_dir=ROOT/'results'/'predictions';prediction_dir.mkdir(exist_ok=True)
     for test_index,(folder,trip,c,truth,route) in enumerate(testing):
         p=final_probabilities[test_index]
@@ -224,7 +230,7 @@ def run(data,trials=10,max_observations=350):
         row['route_continuity']=float(np.mean(values))
     write_csv(ROOT/'results'/'model_comparison.csv',rows)
     write_csv(ROOT/'results'/'decoder_comparison.csv',decoder_rows)
-    config={'seed':SEED,'features':FEATURES,'candidates':12,'selected_model':selected,'use_tuned':use_tuned,
+    config={'seed':SEED,'features':feature_names(feature_version),'feature_version':feature_version,'candidates':12,'selected_model':selected,'use_tuned':use_tuned,
             'bayesian_parameters':params,'bayesian_cv_macro_f1':cv_score,'untuned_cv_macro_f1':untuned_cv,
             'tuned_student_results':tuned_result,'bayesian_search_seconds':search_seconds,'refit_seconds':refit_seconds,
             'trials':trials,'cv_folds':3,'maximum_training_observations_per_trip':max_observations,
@@ -240,4 +246,8 @@ def run(data,trials=10,max_observations=350):
 if __name__=='__main__':
     parser=argparse.ArgumentParser();parser.add_argument('--data',type=Path,default=ROOT.parent/'Student folder')
     parser.add_argument('--trials',type=int,default=10);parser.add_argument('--max-observations',type=int,default=350)
-    args=parser.parse_args();run(args.data,args.trials,args.max_observations)
+    parser.add_argument('--feature-version',type=int,choices=[1,2],default=1)
+    parser.add_argument('--output',type=Path,help='Separate experiment directory; preserves deployed artifacts')
+    args=parser.parse_args()
+    if args.output: ROOT=args.output.resolve()
+    run(args.data,args.trials,args.max_observations,args.feature_version)

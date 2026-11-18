@@ -1,0 +1,16 @@
+{
+  "partition": "train",
+  "trips": 80,
+  "observations": 208417,
+  "sampling_interval_median_s": 1.0,
+  "raw_speed_median_mps": 11.06965907999968,
+  "raw_speed_p99_mps": 46.35071247852702,
+  "segment_length_median_m": 25.729289869944704,
+  "issues": {
+    "invalid_observations": 0,
+    "out_of_order_steps": 0,
+    "duplicate_timestamps": 0,
+    "gaps_over_10s": 590,
+    "zero_length_arcs": 100
+  }
+}

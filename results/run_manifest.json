@@ -1,0 +1,45 @@
+{
+  "recorded_at_utc": "2026-11-18T10:23:09.347060+00:00",
+  "baseline_source_commit": "6a1cb3a8748a0e148e63442a2516e6aae5fbcf4c",
+  "python": "3.11.0 | packaged by conda-forge | (main, Oct 25 2022, 06:12:32) [MSC v.1929 64 bit (AMD64)]",
+  "packages": {
+    "numpy": "2.4.6",
+    "scipy": "1.17.1",
+    "scikit-learn": "1.9.1",
+    "joblib": "1.6.0",
+    "fastapi": "0.162.0",
+    "uvicorn": "0.54.0"
+  },
+  "feature_version": 2,
+  "feature_count": 40,
+  "training_trips": 80,
+  "training_observations": 66606,
+  "maximum_training_observations_per_trip": 900,
+  "bayesian_trials": 12,
+  "input_hashes_verified": 360,
+  "baseline_functions_ast_unchanged": {
+    "load_reference": true,
+    "load_trip": true,
+    "metrics": true
+  },
+  "unit_tests_passed": 9,
+  "api_handler_trips_passed": 10,
+  "api_predictions_match_saved_experiments": true,
+  "http_and_lan_for_updated_model_verified": false,
+  "model_sha256": "fc5be754a1d8dc3c9e8545bfc742cb91e87b29bc4f94ba72ce0e8bc3f0f2a85e",
+  "source_sha256_lf": {
+    "pathsnap/api.py": "f11c1365b1eacdca52ebecef6a62257d1cc745decf0d75f25c5efe89781ae9c0",
+    "pathsnap/data.py": "4fe04ebd5cc54f1b0c3aa5b8e795124c7b2c7cf61b7a8ec84a95fddf31c20217",
+    "pathsnap/decoder.py": "97d4fa67fda3e3347c1763d3678788505bb6dc3e5c564e779a14c44ad60c6362",
+    "pathsnap/experiment.py": "f0db9540aa2fba4210d531823d6b4661e3ccfcfecf7017c4231d9f55d006bbfc",
+    "pathsnap/service.py": "73175f1cc951a7970af853e5082424e1ade50fe0be05175063f6ec6f5bbc1158",
+    "pathsnap/__init__.py": "48f2b29cbbb41d465ec48c78b60ab35bafdc81f4276333a6e4fd409737cba710",
+    "scripts/build_report.py": "a61f31a8fd80721c98ce3d7075410ea8d80eaf0c62b0e02054d00dddf780c2ba",
+    "scripts/compare_runs.py": "52795f4954f2d7733d4ff687bf6d3c732df0c3080a47fffef8ae4e2633ee995b",
+    "scripts/make_maps.py": "9e76b36b574dfbaaab5858f0fe865cd8c4126a98e516df3289c97b878eb918f3",
+    "scripts/plot_experiments.py": "b1aa042496bcadc304d2a7c7e08dffe68c1d909424d1b31e426a80c597fa5e21",
+    "scripts/tune_decoder.py": "0770eeb51890db730ab8cddfd96fe3d949bf7c09e3d52bb0843efc4349eb6b77",
+    "scripts/validate_api.py": "929f937b262121f333c6e2b86796da6e6327de57e569271a1cfdf1402a613281",
+    "tests/test_pipeline.py": "9178211943a8c592844590929638197dd5f656ee029f606bfcfde427f5f975ee"
+  }
+}

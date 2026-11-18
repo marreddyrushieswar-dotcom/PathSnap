@@ -1,141 +1,78 @@
 # PathSnap
 
-GPS map matching using candidate classification and directed HMM/Viterbi decoding.
-The working data directory is `../Student folder`, containing `train` (80 trips)
-and `student_test` (10 trips). Reserved evaluator data was not supplied or used.
+GPS map matching using candidate classification and directed HMM/Viterbi route reconstruction.
 
-## Quick start on this computer
+## Deliverable 1
 
-From this folder in PowerShell:
+| Folder | Contents |
+|---|---|
+| pathsnap/ | Input processing, candidate features, five-model experiments, Bayesian search, decoder and API |
+| ui/ | Browser interface for the receiving laptop |
+| artifacts/ | Five trained classifiers, selected model and inference configuration |
+| results/ | Measured comparisons, validation folds, search trials, predictions and API checks |
+| reports/ | EDA figures, measured comparisons and geographical visualisations |
+| scripts/ | Decoder tuning, EDA/comparison plotting, map generation and validation |
+| tests/ | Direction, GPS gap, reference alignment and decoder correctness checks |
+| runs/baseline_v1/ | Recorded configuration and results from the original baseline |
+| vendor/ | Third-party visualisation dependencies, source provenance and licenses |
 
-```powershell
-..\.venv311\Scripts\python.exe -m unittest discover -s tests -v
-.\start_api.ps1
-```
+Deliverable 2 is submitted separately. The legacy report template describes the original baseline and is guarded against generating an inaccurate report for the updated pipeline.
 
-Open http://127.0.0.1:8000 for the UI, or http://127.0.0.1:8000/docs for API documentation.
-`GET /health`, `GET /api/trips`, and `POST /api/predict` are the service endpoints.
+## Install and run
 
-```powershell
-Invoke-RestMethod http://127.0.0.1:8000/health
-Invoke-RestMethod http://127.0.0.1:8000/api/predict -Method Post -ContentType application/json -Body '{"trip_id":"00000000"}'
-```
-
-## Clean installation
-
-Use a supported Python 3.11 interpreter. The default Python launcher on the
-development computer was not configured; a local Python 3.11 environment was
-created separately without changing system PATH or global packages.
+Python 3.11 is recommended. Tested dependencies are recorded in `results/environment.txt`.
 
 ```powershell
 py -3.11 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
-.\.venv\Scripts\python.exe -m pathsnap.experiment --data '..\Student folder' --trials 10
-.\.venv\Scripts\python.exe -m unittest discover -s tests -v
-.\.venv\Scripts\python.exe -m uvicorn pathsnap.api:app --host 127.0.0.1 --port 8000
-```
-
-Model pickles require compatible Python/scikit-learn versions. Prefer retraining
-when moving to a different environment. Load only the trusted model files produced
-by this project. `results/environment.txt` records the executed environment.
-
-## Two-laptop demonstration
-
-1. Connect both laptops to the same trusted network.
-2. On Laptop 1, start `./start_api.ps1 -BindAddress 0.0.0.0`.
-3. On Laptop 2, open `ui/index.html` through a local HTTP server, for example
-   `python -m http.server 8080 --directory ui`, and visit http://localhost:8080.
-4. Enter `http://LAPTOP_1_IP:8000` in the UI and press Connect.
-5. Choose a trip and reconstruct it. API logs on Laptop 1 show the request and result.
-
-Alternatively Laptop 2 can open `http://LAPTOP_1_IP:8000`, which serves the same UI.
-Network access depends on the operating system firewall; no firewall rules are
-changed by this project. The UI contains no model or reference data.
-
-## Reserved evaluator trips
-
-Set the evaluator root only when organisers provide the reserved partition:
-
-```powershell
-$env:PATHSNAP_EVALUATOR_ROOT='C:\path\to\evaluator_test'
 .\start_api.ps1 -BindAddress 0.0.0.0
 ```
 
-Each trip directory must have matching `.track`, `.nodes`, `.arcs`, and optional
-server-only `.route` files. The evaluator UI lists the actual available trip IDs.
-Until then, the UI explicitly identifies the supplied student-development trips
-as **Student demo**. It does not pretend they are reserved evaluator trips.
+Place the official dataset at `../Student folder`, containing `train/` and `student_test/`, or set `PATHSNAP_DATA_ROOT` to its location. Open `http://127.0.0.1:8000` on the model laptop. On the second laptop on the same trusted network, open `http://MODEL_LAPTOP_IP:8000`, enter the same server URL, connect and select a trip. Port 8000 must be accessible.
 
-Prediction loads only `.track`, `.nodes`, and `.arcs`. Scoring opens `.route`
-after prediction has finished and returns aggregate accuracy only. Neither
-reference geometry nor reference arc labels are returned by the API.
+Endpoints: `GET /health`, `GET /api/trips`, `POST /api/predict`. Interactive API documentation is at `/docs`. Set `PATHSNAP_EVALUATOR_ROOT` only when organisers supply reserved trips. Each trip requires matching `.track`, `.nodes`, `.arcs` and optional server-only `.route` files. Model files must be loaded with compatible scikit-learn versions or retrained.
 
-## Method and metric definitions
+## Updated feature pipeline
 
-- Local equirectangular coordinates in metres at each network's mean latitude.
-  This approximates local distances; it is not a globally accurate projection.
-- Segment samples at <=30 m feed a KD tree; the shortlist is reranked using
-  exact point-to-segment distances. Twelve directed arc candidates per observation.
-- Twelve features describe distance, heading, segment length, projection fraction,
-  local speed/time, nearby observations, and endpoint degree. No trip-local arc ID
-  is used as a learned feature, so the classifier can handle unseen networks.
-- The `.route` file is a chronological sequence of traversed arcs, not GPS-point
-  labels. A monotone geometric alignment derives training and scoring labels.
-  Reported pointwise scores are against these **proxy reference labels** and can
-  be optimistic because geometric information also appears in the model features.
-- At most 350 uniformly random observations per training trip are fitted, with
-  fixed seed 181126. Every one of the 80 training trips participates. Student
-  metrics use all valid observations in all ten development trips.
-- Three-fold GroupKFold keeps complete trips apart. Scaling is fitted inside
-  each training fold. Primary selection metric: mean per-trip observation-level
-  macro F1. Student-test results are reported but not used to select the model.
-- Arc IDs are local to a network. Macro F1, precision and recall are calculated
-  separately per trip and then averaged. Accuracy and log loss are observation
-  weighted. Candidate misses are included as errors; log loss uses an epsilon
-  penalty when the reference arc is missing.
-- Candidate classification is binary: candidate matches aligned arc or not.
-  Positive scores are normalized across candidates. These scores are heuristic
-  HMM emissions; calibration is not guaranteed.
-- Bayesian search uses a Gaussian-process surrogate with Matern kernel and
-  expected improvement, after three random initialization points. The full
-  search history and trip-fold assignments are saved.
-- Viterbi uses directed shortest-path distances between projected candidates.
-  Log transition scores penalize the discrepancy between network and GPS travel.
-  Gaps over 30 seconds and completely unreachable steps start new components.
-  No straight-line connector is fabricated between disconnected components.
-- Route continuity is the fraction of adjacent selected states reachable on the
-  directed network within the documented search limit. Arc-set F1 measures
-  reference-route arc coverage; it does not measure traversal order.
+The candidate set remains up to 12 directed road segments per observation. Feature schema 2 contains 40 features:
 
-## Project layout
+- The original 12 distance, rank, heading, segment length, projection, speed, timing and endpoint-connectivity features.
+- Four relative-distance and segment-endpoint-distance features.
+- Eight context features at each of three time scales (3, 8 and 20 seconds): direction alignment, displacement, speed, past/future distance to the road, mean GPS position distance, projected progress and elapsed time.
 
-| Folder | Contents |
-|---|---|
-| pathsnap/ | Loading, features, experiments, decoder, backend |
-| ui/ | Offline geographical plot and evaluator interface |
-| tests/ | Directed transitions, gaps, alignment and input handling |
-| artifacts/ | Five fitted models, final model and inference configuration |
-| results/ | Inventory, metrics, CV splits, Bayesian trials, predictions and evidence |
-| reports/ | Generated technical report and figures |
-| scripts/ | Report and geographical visualisation generation |
-| vendor/ | Upstream visualization sources, licenses and source provenance |
+Context does not cross GPS gaps longer than 30 seconds. This is offline route reconstruction: future GPS observations are available. References and arc IDs are not predictive features. The original 12-feature schema remains supported for old model artifacts. Loading a mismatched model/configuration fails explicitly.
 
-`artifacts/prepared` is a reproducible local cache, excluded from the submission
-archive. No evaluator data is needed to reproduce development experiments.
+## Training and model selection
 
-## Reproducibility and submission
+The five classifiers are Logistic Regression, Gaussian Naive Bayes, Decision Tree, Random Forest and Histogram Gradient Boosting. Updated experiments sample at most 900 observations per training trip, with seed 181126. GroupKFold keeps complete trips apart in three folds; learned scaling is fitted within each fold. Classifier selection and Bayesian tuning use grouped-validation macro F1. The chosen model is refitted on the 80 training trips.
 
-Run `python -m pathsnap.experiment` to regenerate measured experiments. Training
-and validation data, random seed, model configuration and trial records are
-retained. Runtime figures vary by machine.
+The decoder search fits a separate classifier on 64 training trips and selects sequence parameters on the remaining 16 complete training trips. It compares transition scales and relative weights using normalised directed transitions, selecting observation-weighted accuracy with macro F1 as a tie-breaker. These are tuning results, not an independent estimate of generalisation. Student-test labels are not used for this search. The final classifier and decoder are evaluated on all observations in all ten student-test trips.
 
-The required public GitHub repository, receiving-laptop demonstration, team
-identity and access to organiser-held evaluator trips remain external submission
-steps. Do not claim those were completed from a single-computer development run.
-The execution session restricts sockets, including asyncio's internal socketpair.
-The user subsequently started the server outside this session, and browser-to-HTTP predictions were verified on this computer. Two-laptop LAN deployment remains unverified. `scripts/validate_api.py`
-executes synchronous API handlers on all ten student trips and records the exact
-verification scope; it is not a substitute for a live two-laptop check.
-Review and understand the source, findings and report before submission. AI
-assistance was used for implementation and drafting; experimental measurements
-are generated by executed code, not invented values.
+See `results/improvement_comparison.json`, `results/overall_metrics.json`, `results/model_comparison.csv`, `results/decoder_comparison.csv`, `results/bayesian_trials.json` and `results/decoder_search.json` for actual measurements. The comparison changes features, sampling and model settings together; it is not a feature-only ablation. Reserved evaluator data was not supplied or used. Results above 90% on student development data do not guarantee the same result on unseen reserved trips or on every individual trip.
+
+## Reproduce
+
+From an activated environment:
+
+```powershell
+$env:OMP_NUM_THREADS='2'
+python -m pathsnap.experiment --data '..\Student folder' --feature-version 2 --max-observations 900 --trials 12 --output runs\context_v2
+python scripts\tune_decoder.py --run runs\context_v2
+python scripts\plot_experiments.py --run runs\context_v2
+python scripts\compare_runs.py --baseline runs\baseline_v1 --candidate runs\context_v2
+python -m unittest discover -s tests -v
+```
+
+To test a completed experiment before deployment, set `PATHSNAP_ARTIFACT_ROOT` to its `artifacts/` directory before starting the API. Restart the API after changing artifacts: the loaded model is cached. Regenerate geographical maps using `python scripts/make_maps.py` after deploying the matching predictions. Temporary prepared-data caches and duplicate experiment artifacts are excluded from Git.
+
+## Metrics and provenance
+
+The `.route` files describe traversed arc sequences rather than native GPS-point annotations. A monotone geometric alignment derives labels for training and scoring. This definition is unchanged from the baseline. Pointwise accuracy means agreement with these derived reference labels and can be optimistic because geometry also appears in features.
+
+Accuracy and log loss are observation weighted; macro F1, precision and recall are calculated per trip and averaged. Missing reference candidates count as errors. Route continuity measures directed reachability within the documented search limit; arc-set F1 measures coverage rather than traversal order. Candidate scores are normalised heuristic HMM emissions without guaranteed calibration. Local distances use an equirectangular approximation. The decoder starts separate components for large GPS gaps or unreachable transitions.
+
+Prediction reads only GPS and network inputs. Reference routes are opened afterwards for server-side scoring and are not returned to the UI. Handler checks, live HTTP evidence and two-laptop checks have separate verification scopes; old screenshots are evidence of the baseline until the updated server is demonstrated.
+
+AI assistance was used for implementation and drafting. Measurements come from executed code. Third-party sources retain their licenses and attribution.
+
+`results/run_manifest.json` records input-integrity and prediction checks. `results/submission_sha256.json` hashes Git-normalised file contents (excluding that checksum file itself).

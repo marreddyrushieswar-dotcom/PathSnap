@@ -1,0 +1,60 @@
+{
+  "seed": 181126,
+  "features": [
+    "distance_m",
+    "distance_rank",
+    "heading_cos",
+    "heading_sin_abs",
+    "segment_length_m",
+    "projection_fraction",
+    "speed_mps",
+    "dt_s",
+    "previous_distance_m",
+    "next_distance_m",
+    "start_degree",
+    "end_degree"
+  ],
+  "candidates": 12,
+  "selected_model": "HistGradientBoosting",
+  "use_tuned": true,
+  "bayesian_parameters": {
+    "learning_rate": 0.21859965675618329,
+    "max_leaf_nodes": 20
+  },
+  "bayesian_cv_macro_f1": 0.7760647878763449,
+  "untuned_cv_macro_f1": 0.7755299819679795,
+  "tuned_student_results": {
+    "top1_accuracy": 0.8597599164926931,
+    "macro_f1": 0.7703479844452538,
+    "precision": 0.7948590311685386,
+    "recall": 0.7617897917846579,
+    "log_loss": 0.41549897260226026,
+    "candidate_miss_rate": 0.0012004175365344467,
+    "candidate_macro_f1": 0.9237912102066339,
+    "confusion_matrix_candidate": [
+      [
+        208096,
+        2687
+      ],
+      [
+        2664,
+        16473
+      ]
+    ],
+    "inference_seconds": 0.23173789982683957
+  },
+  "bayesian_search_seconds": 46.6929664000636,
+  "refit_seconds": 1.7253691999940202,
+  "trials": 10,
+  "cv_folds": 3,
+  "maximum_training_observations_per_trip": 350,
+  "training_observations": 28000,
+  "training_trips": 80,
+  "label_method": "monotone geometric alignment; derived proxy labels, not native GPS point annotations",
+  "decoder": {
+    "beta": 35.0,
+    "gap_seconds": 30
+  },
+  "data_root": "C:\\Users\\marre\\Downloads\\Student folder\\Student folder",
+  "evaluator_partition_used": false
+}
